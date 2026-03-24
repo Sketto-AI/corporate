@@ -1,6 +1,4 @@
-import { NextResponse } from 'next/server'
-
-export function middleware(request) {
+export default function middleware(request) {
   const basicAuth = request.headers.get('authorization')
 
   if (basicAuth) {
@@ -8,11 +6,11 @@ export function middleware(request) {
     const [user, pwd] = atob(authValue).split(':')
 
     if (user === 'sketto' && pwd === 'stg2026') {
-      return NextResponse.next()
+      return new Response(null, { status: 200 })
     }
   }
 
-  return new NextResponse('Unauthorized', {
+  return new Response('Unauthorized', {
     status: 401,
     headers: {
       'WWW-Authenticate': 'Basic realm="Secure Area"',
