@@ -6,7 +6,7 @@ export default function middleware(request) {
     const [user, pwd] = atob(authValue).split(':')
 
     if (user === 'sketto' && pwd === 'stg2026') {
-      return new Response(null, { status: 200 })
+      return new Response(null, { status: 200, headers: { 'x-middleware-next': '1' } })
     }
   }
 
@@ -14,6 +14,7 @@ export default function middleware(request) {
     status: 401,
     headers: {
       'WWW-Authenticate': 'Basic realm="Secure Area"',
+      'Content-Type': 'text/plain',
     },
   })
 }
