@@ -1,11 +1,665 @@
 <!DOCTYPE html>
-  <html lang="ja">
-  <head>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sketto</title>
-  </head>
-  <body>
-    <h1>Coming Soon</h1>
-  </body>
-  </html>
+    <title>株式会社Sketto | 人と仕事の関係を、構造から変える。</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Shippori+Mincho:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-base: #fdfaf7;
+            --text-main: #432e2a;
+            --text-muted: #7c6864;
+            --text-light: #a6938f;
+            --brand-orange: #c66b53;
+            --accent-amber: #e5a55d;
+            --warm-cream: #f9f3ea;
+
+            --font-serif: 'Shippori Mincho', serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", sans-serif;
+
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2.5rem;
+            --space-lg: 5rem;
+            --space-xl: 10rem;
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-slow: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            background-color: var(--bg-base);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--brand-orange);
+            color: #ffffff;
+        }
+
+        .serif { font-family: var(--font-serif); }
+        .sans { font-family: var(--font-sans); }
+        .caps { text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; font-weight: 600; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: var(--bg-base);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .ambient-bg::after {
+            content: '';
+            position: absolute;
+            top: -20%; right: -20%;
+            width: 110vw; height: 140vh;
+            background: var(--bg-base);
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: 1;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite ease-in-out alternate;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 60vw; height: 60vw;
+            background: #f2e4d8;
+            top: -10%; left: -10%;
+            filter: blur(80px);
+        }
+        .orb-2 {
+            width: 50vw; height: 50vw;
+            background: var(--brand-orange);
+            top: 20%; left: -5%;
+            filter: blur(120px);
+            animation-delay: -5s;
+        }
+        .orb-3 {
+            width: 45vw; height: 45vw;
+            background: var(--accent-amber);
+            bottom: 5%; left: 20%;
+            filter: blur(110px);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            100% { transform: translate(5%, 5%) scale(1.05) rotate(3deg); }
+        }
+
+        nav {
+            position: fixed;
+            top: 2rem; left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 4rem);
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(253, 250, 247, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 999px;
+            z-index: 100;
+            border: 1px solid rgba(198, 107, 83, 0.1);
+            box-shadow: 0 4px 20px rgba(67, 46, 42, 0.04);
+            transition: all 0.5s var(--ease-out-expo);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-orange);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #ffffff;
+            border: 1px solid rgba(198, 107, 83, 0.15);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-main);
+            box-shadow: 0 2px 10px rgba(198, 107, 83, 0.08);
+        }
+
+        .badge-dot {
+            width: 6px; height: 6px;
+            background: var(--accent-amber);
+            border-radius: 50%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 5rem;
+            position: relative;
+        }
+
+        .hero-badge { margin-bottom: 2rem; }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            background: var(--brand-orange);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(198, 107, 83, 0.3);
+            transition: all 0.3s var(--ease-out-expo);
+            position: relative;
+        }
+
+        .btn-sm {
+            padding: 0.75rem 2rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(198, 107, 83, 0.4);
+            background: #ae553f;
+        }
+
+        section {
+            padding: var(--space-xl) 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-label {
+            color: var(--brand-orange);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-desc {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem 3rem;
+            margin-top: var(--space-lg);
+        }
+
+        .mission-card {
+            position: relative;
+            padding-top: 3rem;
+        }
+
+        .card-num {
+            position: absolute;
+            top: -1.5rem; left: -1rem;
+            font-size: 5rem;
+            font-family: var(--font-serif);
+            color: rgba(198, 107, 83, 0.06);
+            font-weight: 600;
+            line-height: 1;
+            z-index: -1;
+            transition: color 0.3s ease;
+        }
+
+        .mission-card:hover .card-num {
+            color: rgba(198, 107, 83, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-badge {
+            background: #ffffff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            box-shadow: 0 2px 8px rgba(198, 107, 83, 0.05);
+            border: 1px solid rgba(198, 107, 83, 0.1);
+            color: var(--brand-orange);
+        }
+
+        .mission-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .mission-card p {
+            color: var(--text-muted);
+            font-weight: 400;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .service-wrapper {
+            background: #ffffff;
+            border-radius: 24px;
+            margin-top: var(--space-lg);
+            padding: 5rem;
+            border: 1px solid rgba(198, 107, 83, 0.08);
+            box-shadow: 0 20px 80px rgba(67, 46, 42, 0.04);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .service-content h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .service-content .tagline {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .service-content p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .service-meta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .meta-pill {
+            padding: 0.5rem 1rem;
+            background: var(--warm-cream);
+            border: 1px solid rgba(198, 107, 83, 0.1);
+            box-shadow: 0 2px 5px rgba(198, 107, 83, 0.03);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .service-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, rgba(198, 107, 83, 0.04) 0%, transparent 70%);
+        }
+
+        .glass-pane {
+            width: 280px; height: 360px;
+            background: #fdfdfd;
+            border-radius: 20px;
+            border: 1px solid rgba(198, 107, 83, 0.06);
+            box-shadow: 0 20px 40px rgba(198, 107, 83, 0.04);
+            position: relative;
+            transform: rotate(-3deg);
+            animation: float-pane 8s infinite ease-in-out alternate;
+        }
+
+        .glass-pane::after {
+            content: '';
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 1px dashed rgba(198, 107, 83, 0.12);
+            border-radius: 10px;
+        }
+
+        .glass-pane-2 {
+            position: absolute;
+            width: 240px; height: 300px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(198, 107, 83, 0.08);
+            border: 1px solid rgba(198, 107, 83, 0.05);
+            transform: rotate(2deg) translate(20px, 20px);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 2rem;
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+
+        .mock-line {
+            height: 6px;
+            background: #f9f3ea;
+            border-radius: 3px;
+        }
+        .mock-line:first-child {
+            background: var(--accent-amber);
+            width: 30%;
+            margin-bottom: 0.5rem;
+        }
+        .mock-line.short { width: 50%; }
+        .mock-line.long { width: 100%; }
+
+        @keyframes float-pane {
+            0% { transform: rotate(-3deg) translateY(0); }
+            100% { transform: rotate(-1deg) translateY(-10px); }
+        }
+
+        .contact-box {
+            max-width: 800px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(198, 107, 83, 0.15);
+            padding-top: var(--space-lg);
+        }
+
+        .contact-row {
+            display: flex;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(198, 107, 83, 0.08);
+        }
+
+        .contact-label {
+            width: 30%;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .contact-value {
+            width: 70%;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(198, 107, 83, 0.1);
+            margin-top: var(--space-xl);
+            background: var(--warm-cream);
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--text-main);
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 900px) {
+            .service-wrapper {
+                grid-template-columns: 1fr;
+                padding: 3rem 2rem;
+            }
+            .service-visual { height: 300px; order: -1; }
+            .contact-row { flex-direction: column; gap: 0.5rem; }
+            .contact-label, .contact-value { width: 100%; }
+            nav { padding: 1rem; width: calc(100% - 2rem); }
+            .nav-links { display: none; }
+            .hero h1 br,
+            .section-title br { display: none; }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s var(--ease-slow), transform 0.8s var(--ease-slow);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <nav>
+        <a href="#" class="logo">Sketto.</a>
+        <ul class="nav-links sans caps">
+            <li><a href="#mission">Mission</a></li>
+            <li><a href="#service">Service</a></li>
+            <li><a href="#contact">Company</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero container">
+        <div class="badge hero-badge fade-up">
+            <span class="badge-dot"></span>
+            AI Career
+        </div>
+        <h1 class="serif fade-up delay-1">人と仕事の関係を、<br>構造から変える。</h1>
+        <p class="fade-up delay-2">株式会社Skettoは、AIを活用したキャリアOS「ILORA」を通じて、求職者と企業が正直に出会える仕組みをつくります。</p>
+        <div class="fade-up delay-3">
+            <a href="https://ilora.jp" target="_blank" rel="noopener noreferrer" class="btn-primary">ILORAを見る</a>
+        </div>
+    </header>
+
+    <section id="mission" class="container">
+        <div class="section-header fade-up">
+            <span class="section-label sans caps">Mission</span>
+            <h2 class="section-title serif">構造的な矛盾を、<br>AIで解消する。</h2>
+            <p class="section-desc">人材紹介は「誰に当たるか」で結果が変わる。求職者も企業も、エージェントの質に左右される構造的な矛盾が放置されてきました。私たちはこの矛盾を観察と対話によって解きほぐします。</p>
+        </div>
+
+        <div class="mission-grid">
+            <div class="mission-card fade-up">
+                <div class="card-num">01</div>
+                <div class="card-header">
+                    <span class="card-badge sans caps">Observe</span>
+                    <h3 class="serif">評価しない</h3>
+                </div>
+                <p>スコアやランクで人を分類しない。「今の状態」を観察事実として整理するだけ. バイアスを排除した純粋なデータの形へ。</p>
+            </div>
+
+            <div class="mission-card fade-up delay-1">
+                <div class="card-num">02</div>
+                <div class="card-header">
+                    <span class="card-badge sans caps">Define</span>
+                    <h3 class="serif">可視化する</h3>
+                </div>
+                <p>キャリアの現在地を80文字以内で定義する。曖昧さを徹底的に排除した、シャープな言語化をAIとの対話で実現します。</p>
+            </div>
+
+            <div class="mission-card fade-up delay-2">
+                <div class="card-num">03</div>
+                <div class="card-header">
+                    <span class="card-badge sans caps">Iterate</span>
+                    <h3 class="serif">育てる</h3>
+                </div>
+                <p>3ヶ月ごとにセッションを重ね、精度を上げ続ける。1回で完成させない、変わりゆく人の状態に寄り添う設計。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="service" class="container">
+        <div class="service-wrapper fade-up">
+            <div class="service-content">
+                <span class="section-label sans caps">Service</span>
+                <h3 class="serif">ILORA</h3>
+                <div class="tagline serif">キャリアの現在地を可視化するAI</div>
+                <p>AIとの対話を通じて、あなたの「今」を整理するキャリアOS。転職を促さず、評価せず、ただ事実を紡ぎ出します。最終的に決めるのは、他の誰でもない自分自身です。</p>
+                <div class="service-meta">
+                    <span class="meta-pill sans caps">Free</span>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <a href="https://ilora.jp" target="_blank" rel="noopener noreferrer" class="btn-primary btn-sm">ILORAを見る</a>
+                </div>
+            </div>
+            <div class="service-visual">
+                <div class="glass-pane"></div>
+                <div class="glass-pane-2">
+                    <div class="mock-line short"></div>
+                    <div class="mock-line long"></div>
+                    <div class="mock-line long" style="opacity: 0.1; margin-top: 2rem;"></div>
+                    <div class="mock-line long" style="opacity: 0.1;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container" style="margin-top: var(--space-lg);">
+        <div class="section-header fade-up">
+            <span class="section-label sans caps">Company</span>
+            <h2 class="section-title serif">会社概要</h2>
+        </div>
+
+        <div class="contact-box fade-up delay-1">
+            <div class="contact-row">
+                <div class="contact-label sans caps">Company Name</div>
+                <div class="contact-value">株式会社Sketto</div>
+            </div>
+            <div class="contact-row">
+                <div class="contact-label sans caps">Address</div>
+                <div class="contact-value">〒171-0033<br>東京都豊島区高田1-38-4</div>
+            </div>
+            <div class="contact-row">
+                <div class="contact-label sans caps">Representative</div>
+                <div class="contact-value">代表取締役 大下 健太郎</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container fade-up">
+            <span class="footer-logo">Sketto.</span>
+            <div class="copyright sans caps">&copy; Sketto Inc. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
