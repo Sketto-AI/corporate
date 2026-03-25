@@ -5,7 +5,7 @@ export default function middleware(request) {
     const authValue = basicAuth.split(' ')[1]
     const [user, pwd] = atob(authValue).split(':')
 
-    if (user === 'sketto' && pwd === 'stg2026') {
+    if (user === 'sketto' && pwd === 'sketto') {
       return new Response(null, { status: 200, headers: { 'x-middleware-next': '1' } })
     }
   }
