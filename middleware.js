@@ -1,5 +1,12 @@
 export default function middleware(request) {
   const host = request.headers.get('host') || ''
+  const url = request.url
+
+  // www.sketto.io → sketto.io にリダイレクト
+  if (host.startsWith('www.')) {
+    const newUrl = url.replace('://www.', '://')
+    return Response.redirect(newUrl, 308)
+  }
 
   // stg.sketto.io のみBasic認証
   if (host.includes('stg.sketto.io') || host.includes('stg-')) {
