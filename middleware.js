@@ -1,22 +1,30 @@
 export default function middleware(request) {
-  const basicAuth = request.headers.get('authorization')
+  const host = request.headers.get('host') || ''
 
-  if (basicAuth) {
-    const authValue = basicAuth.split(' ')[1]
-    const [user, pwd] = atob(authValue).split(':')
+  // stg.sketto.io のみBasic認証
+  if (host.includes('stg.sketto.io') || host.includes('stg-')) {
+    const basicAuth = request.headers.get('authorization')
 
-    if (user === 'sketto' && pwd === 'sketto') {
-      return new Response(null, { status: 200, headers: { 'x-middleware-next': '1' } })
+    if (basicAuth) {
+      const authValue = basicAuth.split(' ')[1]
+      const [user, pwd] = atob(authValue).split(':')
+
+      if (user === 'sketto' && pwd === 'sketto') {
+        return new Response(null, { status: 200, headers: { 'x-middleware-next': '1' } })
+      }
     }
+
+    return new Response('Unauthorized', {
+      status: 401,
+      headers: {
+        'WWW-Authenticate': 'Basic realm="Secure Area"',
+        'Content-Type': 'text/plain',
+      },
+    })
   }
 
-  return new Response('Unauthorized', {
-    status: 401,
-    headers: {
-      'WWW-Authenticate': 'Basic realm="Secure Area"',
-      'Content-Type': 'text/plain',
-    },
-  })
+  // それ以外はそのまま通す
+  return new Response(null, { status: 200, headers: { 'x-middleware-next': '1' } })
 }
 
 export const config = {
